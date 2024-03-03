@@ -14,5 +14,5 @@ You can parse your PDF statements now and get a clean DF / Parquet of the data.
 ## Usage <a name = "usage"></a>
 
 ```bash
-python main --input_file path/to/your/statement.pdf
+python main --input_file path/to/your/statement.pdf --output_file path/to/save/parsed/df.parquet
 ```

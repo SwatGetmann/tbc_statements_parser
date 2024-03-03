@@ -23,6 +23,7 @@ logger.addHandler(ch)
 
 arg_parser = argparse.ArgumentParser(description="TBC Bank Statements Parser")
 arg_parser.add_argument('--input_file', type=Path, help='Statement PDF File to parse', required=True)
+arg_parser.add_argument('--output_file', type=Path, help='path to parquet file to save', required=True)
 args = arg_parser.parse_args()
 
 document = load_file(args.input_file)
@@ -64,3 +65,6 @@ logger.debug(global_container)
 
 df = pd.DataFrame(global_container)
 logger.info(df)
+
+args.output_file.parent.mkdir(parents=True, exist_ok=True)
+df.to_parquet(args.output_file)
