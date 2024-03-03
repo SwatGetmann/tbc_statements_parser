@@ -17,7 +17,6 @@ def by_col(el):
         for b in belows:
             print(f"\t---- {b.text()} [{b.bounding_box}]")
 
-
 def by_row(row):
     rows = document.elements.below(row)
     container = []
@@ -28,24 +27,30 @@ def by_row(row):
         belows = document.elements.below(row)
         for below in belows:
             if below in rows:
-                print("GOTCHA!")
                 break
             row_text += below.text()
             print(f"\t|.| B: {below.text()} [{below.bounding_box}]")
         for eel in document.elements.to_the_right_of(row):
             print(f"\t|-> R: {eel.text()} [{eel.bounding_box}]")
             if eel.bounding_box.x0 > 660 and eel.bounding_box.x0 < 700:
-                obj['spent'] = eel.text()
+                obj['spent'] = float(eel.text())
             if eel.bounding_box.x0 > 700 and eel.bounding_box.x0 < 760:
-                obj['added'] = eel.text()
+                obj['added'] = float(eel.text())
             if eel.bounding_box.x0 > 765:
-                obj['total'] = eel.text()
+                obj['total'] = float(eel.text())
             if eel.bounding_box.x0 < 430:
                 obj['bank_desc'] = eel.text()
         obj['desc'] = row_text
+        container.append(obj)
         print(obj)
         print("*"*10)
+    return container
 
-by_row(els[1])
+global_container = [i for el in els for i in by_row(el)]
+print(global_container)
+
+import pandas as pd
+df = pd.DataFrame(global_container)
+print(df)
 
 print("ALL")
