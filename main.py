@@ -1,5 +1,8 @@
 import pandas as pd
 import logging
+import argparse
+
+from pathlib import Path
 from py_pdf_parser.loaders import load_file
 
 logger = logging.getLogger('TBC_Statement')
@@ -18,9 +21,11 @@ ch.setFormatter(formatter)
 # add ch to logger
 logger.addHandler(ch)
 
+arg_parser = argparse.ArgumentParser(description="TBC Bank Statements Parser")
+arg_parser.add_argument('--input_file', type=Path, help='Statement PDF File to parse', required=True)
+args = arg_parser.parse_args()
 
-test_file_path = "./test/statement-816879476-1.pdf"
-document = load_file(test_file_path)
+document = load_file(args.input_file)
 
 txt = "თარიღი\nDate"
 els = document.elements.filter_by_text_contains(txt)
